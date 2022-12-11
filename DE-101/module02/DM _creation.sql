@@ -26,12 +26,23 @@ set "year" = extract(year from cast(order_date as timestamp)),
 
 -- ************************************** product
 
+Cdrop table product 
+
 CREATE TABLE product
 (
  product_id   varchar(50) NOT NULL,
- category     varchar(50) NOT NULL,
- subcategory  varchar(50) NOT NULL,
- product_name varchar(500) NOT NULL,
+ category     varchar(50)  NULL,
+ subcategory  varchar(50)  NULL,
+ product_name varchar(500)  NULL,
  CONSTRAINT PK_prod PRIMARY KEY ( product_id )
 );
-
+-- добавляю первиный ключ
+insert into product 
+select * from (select distinct product_id from orders) o;
+-- по первичному ключу подтягива по очереди дистинктом все поля
+UPDATE product
+SET category = (
+  SELECT distinct category
+  FROM orders
+  WHERE product_id = product.product_id
+)
