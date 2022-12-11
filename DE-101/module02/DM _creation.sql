@@ -38,7 +38,7 @@ CREATE TABLE product
 );
 -- добавляю первиный ключ
 insert into product 
-select * from (select distinct product_id from orders) o;
+select product_id from (select distinct product_id from orders) o;
 -- по первичному ключу подтягива по очереди дистинктом все поля
 UPDATE product
 SET category = (
@@ -46,3 +46,11 @@ SET category = (
   FROM orders
   WHERE product_id = product.product_id
 )
+---------------Geo
+CREATE table geography as (select g.postal_code, o.city, o.state, o.country, o.region, p.person
+from geography g
+join orders o on g.postal_code = o.postal_code
+join people p on o.region = p.region)
+-- и потом просто назначил postal_code как primary key
+ALTER TABLE geography
+CONSTRAINT PK_geo PRIMARY KEY ( postal_code )
