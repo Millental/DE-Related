@@ -31,7 +31,7 @@ CREATE TABLE product
  product_id   varchar(50) NOT NULL,
  category     varchar(50) NOT NULL,
  subcategory  varchar(50) NOT NULL,
- product_name varchar(50) NOT NULL,
- segment      varchar(50) NOT NULL,
- CONSTRAINT PK_1 PRIMARY KEY ( product_id )
+ product_name varchar(500) NOT NULL,
+ CONSTRAINT PK_prod PRIMARY KEY ( product_id )
 );
+
